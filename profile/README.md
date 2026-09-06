@@ -57,18 +57,20 @@ objdump -T ab | grep -oE 'GLIBC_[0-9.]+' | sort -uV | tail -1
 
 ## 本 org 的仓库
 
-| 仓库 | 作用 |
-|---|---|
-| [`buildkit`](https://github.com/distrotwin/buildkit) | 公共构建机器码：五条构建路径、数据镜像取材、测试与验收门禁、可复用 CI workflow；机制文档与已知问题记录在 `docs/` |
-| [`kylin`](https://github.com/distrotwin/kylin) | 银河麒麟 V4 / V10 / V10 SP1 / V11 → [镜像](https://github.com/distrotwin/kylin/pkgs/container/kylin) |
-| [`uos`](https://github.com/distrotwin/uos) | 统信 UOS V20 / V25 → [镜像](https://github.com/distrotwin/uos/pkgs/container/uos) |
-| [`kylinsec`](https://github.com/distrotwin/kylinsec) | 麒麟信安 V6 / V3.4 → [镜像](https://github.com/distrotwin/kylinsec/pkgs/container/kylinsec) |
-| [`loongnix`](https://github.com/distrotwin/loongnix) | Loongnix 桌面 25（loong64） → [镜像](https://github.com/distrotwin/loongnix/pkgs/container/loongnix) |
-| [`linx`](https://github.com/distrotwin/linx) | 凝思六支全谱系（glibc 2.5→2.38） → [镜像](https://github.com/distrotwin/linx/pkgs/container/linx) |
-| [`fangde`](https://github.com/distrotwin/fangde) | 方德桌面三代（v3.1 / panda / tiger） → [镜像](https://github.com/distrotwin/fangde/pkgs/container/fangde) |
-| `scratch` | 数据镜像：厂商站点对 CI 不可达时的介质中转，一个介质一个 tag，带完整性锚点 |
+| 仓库 | 作用 | 架构 |
+|---|---|---|
+| [`buildkit`](https://github.com/distrotwin/buildkit) | 公共构建机器码：五条构建路径、数据镜像取材、测试与验收门禁、可复用 CI workflow；机制文档与已知问题记录在 `docs/` | — |
+| [`kylin`](https://github.com/distrotwin/kylin) | 银河麒麟 V4 / V10 / V10 SP1 / V11 → [镜像](https://github.com/distrotwin/kylin/pkgs/container/kylin) | 全版本 amd64 + arm64；**V11 另有 loong64** |
+| [`uos`](https://github.com/distrotwin/uos) | 统信 UOS V20 / V25 → [镜像](https://github.com/distrotwin/uos/pkgs/container/uos) | 全版本 amd64 + arm64；**V25 另有 loong64** |
+| [`kylinsec`](https://github.com/distrotwin/kylinsec) | 麒麟信安 V6 / V3.4 → [镜像](https://github.com/distrotwin/kylinsec/pkgs/container/kylinsec) | 全版本 amd64 + arm64；**V6 另有 loong64** |
+| [`loongnix`](https://github.com/distrotwin/loongnix) | Loongnix 桌面 25 → [镜像](https://github.com/distrotwin/loongnix/pkgs/container/loongnix) | **loong64**（纯龙芯仓库） |
+| [`linx`](https://github.com/distrotwin/linx) | 凝思六支全谱系（glibc 2.5→2.38） → [镜像](https://github.com/distrotwin/linx/pkgs/container/linx) | 全支 amd64；6.0.98 / 6.0.99 另有 arm64 |
+| [`fangde`](https://github.com/distrotwin/fangde) | 方德桌面三代（v3.1 / panda / tiger） → [镜像](https://github.com/distrotwin/fangde/pkgs/container/fangde) | v3.1 为 amd64；panda / tiger 为 amd64 + arm64 |
+| `scratch` | 数据镜像：厂商站点对 CI 不可达时的介质中转，一个介质一个 tag，带完整性锚点 | 随介质 |
 
 每个镜像三档：`micro`（最小根系统）/ `base`（常用工具）/ `devel`（编译工具链）。tag 规则、基线数字与各系统的已知怪癖见对应仓库的 README。
+
+**关于 LoongArch 要单独说两句。** 龙芯有新旧两套互不兼容的 ABI：新世界（`loong64`，动态链接器 `ld-linux-loongarch-lp64d.so.1`）我们已支持三家四线——银河麒麟 V11、统信 V25、麒麟信安 V6、Loongnix 25，这大概是目前唯一能在公共 CI 里直接拉到的国产桌面 OS loong64 构建环境。旧世界（`loongarch64`，链接器 `/lib64/ld.so.1`，银河麒麟 V10 SP1、Loongnix 20、方德的三处龙芯树都属此类）**目前不支持**：上游 QEMU 未实现旧世界的信号系统调用，托管 CI 的模拟环境里装不了包，排查记录见 [buildkit 文档](https://github.com/distrotwin/buildkit)。要留意 rpm 生态里两个世界都叫 `loongarch64`，架构名不携带世代信息——判据在动态链接器上。
 
 ## 引用
 
