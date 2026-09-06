@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- distrotwin org 头像候选 A1：孪生方块。实心块=原系统，虚线块=我们造的孪生镜像。 -->
+  <rect width="1024" height="1024" fill="#1F2A37"/>
+  <!-- 实心块（左下） -->
+  <rect x="172" y="352" width="500" height="500" rx="72" fill="#F5F7FA"/>
+  <!-- 虚线孪生（右上，压在实心块之上） -->
+  <rect x="352" y="172" width="500" height="500" rx="72" fill="none"
+        stroke="#E24A33" stroke-width="64" stroke-dasharray="126 74" stroke-linecap="round"/>
+</svg>
